@@ -2,19 +2,19 @@ import { body, validationResult } from "express-validator";
 
 export const validateresearch = [
   body("researchID")
-    .isString().withMessage("CategoryID debe ser texto")
+    .isString().withMessage("researchID debe ser texto")
     .isLength({ min: 1, max: 20 }).withMessage("CategoryID debe tener entre 1 y 20 caracteres"),
 
-  body("FullName")
-    .isString().withMessage("CategoryName debe ser texto")
-    .isLength({ min: 1, max: 50 }).withMessage("CategoryName debe tener entre 1 y 50 caracteres"),
+  body("Fullname")
+    .isString().withMessage("Fullname debe ser texto")
+    .isLength({ min: 1, max: 50 }).withMessage(" Fullname debe tener entre 1 y 50 caracteres"),
 
   body("schoolgrade")
-    .isString().withMessage("CategoryName debe ser texto")
+    .isString().withMessage("schoolgrade debe ser texto")
     .isLength({ min: 1, max: 50 }).withMessage("CategoryName debe tener entre 1 y 50 caracteres"),
 
   body("password")
-    .isString().withMessage("CategoryName debe ser texto")
+    .isString().withMessage("password debe ser texto")
     .isLength({ min: 1, max: 50 }).withMessage("CategoryName debe tener entre 1 y 50 caracteres"),
 
   body("Description")
