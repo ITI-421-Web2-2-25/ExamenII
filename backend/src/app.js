@@ -5,6 +5,7 @@ import investigationRoutes from './routes/investigationRoutes.js';
 import userRoutes from '../src/routes/userRoutes.js';
 import Roles from '../src/models/rols.js'
 import apiLimiter from '../src/middleware/rateLimiter.js'
+import researchRoutes from '../src/routes/researchRoutes.js';
 
 const app = express();
 connectDB();
@@ -23,6 +24,7 @@ app.use("/api", apiLimiter);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/investigations", investigationRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/research", researchRoutes);
 
 // Create the initial roles if they do not exist
 async function initial() {
