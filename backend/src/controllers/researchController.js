@@ -3,7 +3,7 @@ import research from "../models/research.js";
 // Crear categoría
 export const createresearch = async (req, res) => {
   try {
-    const { researchID, Fullname, Email, password,schoolgrade,Description, } = req.body;
+    const { researchID, Fullname, Email, password,schoolgrade,Description,Mime } = req.body;
     const Image = req.file ? req.file.buffer : null;
 
     if (!Image) {
