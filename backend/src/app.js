@@ -10,8 +10,6 @@ const app = express();
 connectDB();
 initial();
 
-// Middlewares
-
 // Limitar el tamaño del Payload o carga útil de solicitud
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true, limit: "5mb" }));
@@ -30,24 +28,14 @@ async function initial() {
         if (count === 0) {
             const newRoles = [
                 {
-                    name: "root",
-                    level: 1,
-                    description: "Rol superior, soporte global"
-                },
-                {
-                    name: "admin",
+                    name: "Researcher",
                     level: 3,
-                    description: "Rol administrativo, acceso parcial actualizaciones/consultas"
+                    description: "Rol administrativo, actualizar y editar informacion"
                 },
                 {
-                    name: "user",
-                    level: 5,
-                    description: "Usuario normal, acceso parcial consultas"
-                },
-                {
-                    name: "guest",
+                    name: "visitors",
                     level: 7,
-                    description: "Invitado, solo ciertas consultas"
+                    description: "Invitado, solo podra visualizar la informacion"
                 }];
 
             Roles.insertMany(newRoles).then(() => {

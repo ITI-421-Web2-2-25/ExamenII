@@ -37,18 +37,27 @@ export const signup = async (req, res, next) => {
 
 // Create the signin function
 export const signin = async (req, res) => {
-    await Users.findOne({username: req.body.username}).then((user) => {
+    try {
+        if (!req.body.username || !req.body.password) {
+            const msgJson = {
+                status_code: 400,
+                status_message: 'Bad Request',
+                body_message: 'Username y password son requeridos'
+            };
+            return res.status(400).json(msgJson);
+        }
+
+        const user = await Users.findOne({ username: req.body.username });
+        
         if (!user) {
             const msgJson = {
                 status_code: 404,
                 status_message: 'No encontrado',
                 body_message: 'El usuario no existe!'
             };
-
-            return res.status(404).send(msgJson);
+            return res.status(404).json(msgJson);
         }
-
-        var passwordIsValid = bcrypt.compareSync(
+        const passwordIsValid = bcrypt.compareSync(
             req.body.password,
             user.password
         );
@@ -59,17 +68,23 @@ export const signin = async (req, res) => {
                 status_message: 'Unauthorized',
                 body_message: 'El usuario o contraseña son incorrectos!'
             };
-            res.status(401).json(msgJson);
+            return res.status(401).json(msgJson);
         }
 
-        var token = jsonwebtoken.sign({ id: user._id }, secret, {
-            expiresIn: 86400, // 24 hours (60 secs * 60 mins * 24 hrs)
-        });
+        const token = jsonwebtoken.sign(
+            { id: user._id }, 
+            secret, 
+            { expiresIn: 86400 } // 24 hours
+        );
 
-        var nivel = user.rol.toUpperCase();
+        // Obtener el rol del usuario
+        const nivel = user.rol ? user.rol.toUpperCase() : 'USER';
 
-        req.session.token = token;
+        if (req.session) {
+            req.session.token = token;
+        }
 
+        // Respuesta exitosa
         const msgJson = {
             status_code: 200,
             status_message: 'Ok',
@@ -77,19 +92,24 @@ export const signin = async (req, res) => {
                 id: user._id,
                 username: user.username,
                 email: user.email,
-                roles: nivel
+                roles: nivel,
+                token: token 
             }
         };
 
-        res.status(200).send(msgJson);
-    }).catch(err => {
+        return res.status(200).json(msgJson);
+
+    } catch (err) {
+        console.error('Error en signin:', err); 
+        
         const msgJson = {
             status_code: 500,
             status_message: 'Internal Server Error',
-            body_message: err
+            body_message: 'Error interno del servidor'
         };
-        res.status(500).send(msgJson);
-    })
+        
+        return res.status(500).json(msgJson);
+    }
 };
 
 // Create the signout function
