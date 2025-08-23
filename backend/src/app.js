@@ -1,13 +1,14 @@
 import express from 'express';
 import connectDB from '../src/config/dbContext.js';
 import categoryRoutes from '../src/routes/categoryRoutes.js';
+import investigationRoutes from './routes/investigationRoutes.js';
 import userRoutes from '../src/routes/userRoutes.js';
 import Roles from '../src/models/rols.js'
 import apiLimiter from '../src/middleware/rateLimiter.js'
 
 const app = express();
 connectDB();
-initial();
+// initial();
 
 // Middlewares
 
@@ -20,6 +21,7 @@ app.use("/api", apiLimiter);
 
 // Rutas
 app.use("/api/categories", categoryRoutes);
+app.use("/api/investigations", investigationRoutes);
 app.use("/api/users", userRoutes);
 
 // Create the initial roles if they do not exist
