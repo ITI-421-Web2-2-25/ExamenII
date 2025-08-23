@@ -5,7 +5,7 @@ import secret from '../config/secretContext.js';
 import jsonwebtoken from 'jsonwebtoken';
 
 // Creates the roles array
-const ROLES = ['root', 'admin', 'user', 'guest'];
+const ROLES = ['researcher', 'visitors'];
 
 // Creates the database variable
 const Users = mongoose.model('User');
