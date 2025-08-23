@@ -31,8 +31,8 @@ export const createresearch = async (req, res) => {
 // Lista de categorías
 export const getresearch = async (req, res) => {
   try {
-    const research = await research.find();
-    res.json(research);
+    const researchList = await research.find();
+    res.json(researchList);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

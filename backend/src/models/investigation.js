@@ -1,8 +1,15 @@
 import mongoose from "mongoose";
 
-const ImagenSchema = new mongoose.Schema({
-  url: { type: String, required: true },
+const ImageSchema = new mongoose.Schema({
+  Image: { type: Buffer },
+  Mime: { type: String },
   ImageDescription: { type: String, required: true }, 
+});
+
+const CommentSchema = new mongoose.Schema({
+  CommentDetail:{ type: String, required: true },
+  Valoration: { type: Number, min: 1, max: 5, require: true },
+  Date: { type: Date, default: Date.now }
 });
 
 const InvestigationSchema = new mongoose.Schema({
@@ -14,8 +21,9 @@ const InvestigationSchema = new mongoose.Schema({
   DocumentMime: { type: String },
   Conclusions: { type: String }, 
   Recommendations: { type: String },
-  Imagenes: [ImagenSchema],
-  Estudiante: { type: mongoose.Schema.Types.ObjectId, ref: "Research" }
+  Imagenes: [ImageSchema],
+  Comments: [CommentSchema],
+  ResearchID: { type: mongoose.Schema.Types.ObjectId, ref: "research" }
 });
 
 export default mongoose.model("Investigation", InvestigationSchema);
